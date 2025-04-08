@@ -17,7 +17,9 @@ import { TmdbRepository } from '../networks/tmdb/tmdb-repository';
 import { CastCard } from '../components/card/cast-card';
 import { MovieDetail } from '../models/tmdb/movie-details';
 import { MovieCredits } from '../models/tmdb/movie-credits';
-import { BookmarkIcon } from '../components/icons/icons';
+import { BookmarkIcon, HomeIcon } from '../components/icons/icons';
+import { useWatchlist } from '../contexts/watch-list-context';
+
 interface DetailScreenProps {
   route: {
     params: {
@@ -30,6 +32,7 @@ const DetailScreen: React.FC<DetailScreenProps> = ({ route }) => {
   const { movie_id } = route.params;
   const [detail, setDetail] = useState<MovieDetail | null>(null);
   const [credits, setCredits] = useState<MovieCredits | null>(null);
+  const { isInWatchlist, addToWatchlist, removeFromWatchlist } = useWatchlist();
 
   const navigation = useNavigation();
   const tmdbRepository = new TmdbRepository();
@@ -49,6 +52,33 @@ const DetailScreen: React.FC<DetailScreenProps> = ({ route }) => {
     return `${hours}h ${minutes}m`;
   };
 
+  const handleWatchlistPress = async () => {
+    if (!detail) return;
+    
+    const movie = {
+      id: detail.id,
+      title: detail.title,
+      overview: detail.overview,
+      poster_path: detail.poster_path,
+      backdrop_path: detail.backdrop_path,
+      vote_average: detail.vote_average,
+      release_date: detail.release_date,
+      adult: detail.adult,
+      genre_ids: detail.genres.map(genre => genre.id),
+      original_language: detail.original_language,
+      original_title: detail.original_title,
+      popularity: detail.popularity,
+      video: false,
+      vote_count: detail.vote_count
+    };
+
+    if (isInWatchlist(movie.id)) {
+      await removeFromWatchlist(movie.id);
+    } else {
+      await addToWatchlist(movie);
+    }
+  };
+
   useEffect(() => {
     const fetchMovieData = async () => {
       const [movieDetails, movieCredits] = await Promise.all([
@@ -64,6 +94,8 @@ const DetailScreen: React.FC<DetailScreenProps> = ({ route }) => {
   if (!detail) {
     return <Text>Loading...</Text>;
   }
+
+  const isMovieInWatchlist = isInWatchlist(movie_id);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -119,8 +151,6 @@ const DetailScreen: React.FC<DetailScreenProps> = ({ route }) => {
 
         <Text style={styles.tagline}>{detail.tagline}</Text>
 
-        
-
         {/* Overview Section */}
         <View style={styles.overviewSection}>
           <Text style={styles.sectionTitle}>Overview</Text>
@@ -141,9 +171,14 @@ const DetailScreen: React.FC<DetailScreenProps> = ({ route }) => {
         </View>
 
         {/* Add to Watchlist Button */}
-        <TouchableOpacity style={styles.watchlistButton}>
+        <TouchableOpacity 
+          style={styles.watchlistButton}
+          onPress={handleWatchlistPress}
+        >
           <BookmarkIcon />
-          <Text style={styles.watchlistButtonText}>Add To Watchlist</Text>
+          <Text style={styles.watchlistButtonText}>
+            {isMovieInWatchlist ? 'Remove from Watchlist' : 'Add to Watchlist'}
+          </Text>
         </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
@@ -292,7 +327,7 @@ const styles = StyleSheet.create({
     lineHeight: 24,
   },
   watchlistButton: {
-    flexDirection : 'row',
+    flexDirection: 'row',
     justifyContent: 'center',
     margin: 16,
     padding: 16,

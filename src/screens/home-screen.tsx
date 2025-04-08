@@ -9,7 +9,7 @@ import { DropSearch } from '../components/drop-search';
 import { TmdbRepository } from '../networks/tmdb/tmdb-repository';
 import { Movie } from '../models/tmdb/movie';
 import { MovieList } from '../components/MovieList';
-import { useMovieContext } from '../contexts/MovieContext';
+import { useMovieContext } from '../contexts/movie-context';
 import { NOW_PLAYING, POPULAR, UPCOMING } from '../utils/constants';
 
 const HomeScreen = () => {

@@ -2,11 +2,10 @@ import { MovieResponse} from "../../models/tmdb/movie";
 import { MovieCredits } from "../../models/tmdb/movie-credits";
 import { MovieDetail } from "../../models/tmdb/movie-details";
 import { TMDB_BASE_URL } from "../../utils/constants";
-import { getRequest } from "../Request";
+import { getRequest } from "../request";
 import { TMDB_API_KEY } from '@env';
 
 export class TmdbRepository {
-    public static readonly imagePath = 'https://image.tmdb.org/t/p/original';
     private readonly baseUrl = TMDB_BASE_URL;
     private readonly apiKey = TMDB_API_KEY;
 

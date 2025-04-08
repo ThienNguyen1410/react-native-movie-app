@@ -1,4 +1,5 @@
 {
   "name": "MovieApp",
-  "displayName": "MovieApp"
+  "displayName": "MovieApp",
+  "icon": "./src/assets/icons/logo.png"
 }

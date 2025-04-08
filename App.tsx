@@ -1,17 +1,23 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import TabNavigator from './src/navigation/TabNavigator';
-import { MovieProvider } from './src/contexts/MovieContext';
+import TabNavigator from './src/navigation/tab-navigator';
+import { MovieProvider } from './src/contexts/movie-context';
+import { WatchlistProvider } from './src/contexts/watch-list-context';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+const Stack = createNativeStackNavigator();
 
 function App(): React.JSX.Element {
   return (
     <SafeAreaProvider>
-      <MovieProvider>
-        <NavigationContainer>
-          <TabNavigator />
-        </NavigationContainer>
-      </MovieProvider>
+      <WatchlistProvider>
+        <MovieProvider>
+          <NavigationContainer>
+            <TabNavigator />
+          </NavigationContainer>
+        </MovieProvider>
+      </WatchlistProvider>
     </SafeAreaProvider>
   );
 }

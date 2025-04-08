@@ -1,19 +1,40 @@
 import React, {useState} from 'react';
-
 import {
     View,
     Text,
     StyleSheet,
     TouchableOpacity,
-  } from 'react-native';
+    ViewStyle,
+    TextStyle,
+} from 'react-native';
 
 interface DropDownMenuProps {
   title: string;
   menuItems: string[];
   onFilterChange?: (selectedItem: string) => void;
+  containerStyle?: ViewStyle;
+  buttonStyle?: ViewStyle;
+  buttonActiveStyle?: ViewStyle;
+  buttonTextStyle?: TextStyle;
+  dropdownStyle?: ViewStyle;
+  dropdownItemStyle?: ViewStyle;
+  dropdownItemTextStyle?: TextStyle;
+  chevronStyle?: TextStyle;
 }
 
-export const DropDownMenu = ({ title, menuItems, onFilterChange }: DropDownMenuProps) => {
+export const DropDownMenu = ({ 
+  title, 
+  menuItems, 
+  onFilterChange,
+  containerStyle,
+  buttonStyle,
+  buttonActiveStyle,
+  buttonTextStyle,
+  dropdownStyle,
+  dropdownItemStyle,
+  dropdownItemTextStyle,
+  chevronStyle,
+}: DropDownMenuProps) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [selectedFilter, setSelectedFilter] = useState(title);
 
@@ -24,27 +45,33 @@ export const DropDownMenu = ({ title, menuItems, onFilterChange }: DropDownMenuP
     };
 
     return (
-    <View>
+    <View style={containerStyle}>
           <TouchableOpacity 
             style={[
               styles.filterButton,
-              isDropdownOpen && styles.filterButtonActive
+              buttonStyle,
+              isDropdownOpen && styles.filterButtonActive,
+              isDropdownOpen && buttonActiveStyle,
             ]}
             onPress={() => setIsDropdownOpen(!isDropdownOpen)}
           >
-            <Text style={styles.filterButtonText}>{selectedFilter}</Text>
-            <Text style={styles.chevron}>{isDropdownOpen ? '⌄' : '›'}</Text>
+            <Text style={[styles.filterButtonText, buttonTextStyle]}>
+              {selectedFilter}
+            </Text>
+            <Text style={[styles.chevron, chevronStyle]}>
+              {isDropdownOpen ? '⌄' : '›'}
+            </Text>
           </TouchableOpacity>
 
           {isDropdownOpen && (
-            <View style={styles.dropdown}>
+            <View style={[styles.dropdown, dropdownStyle]}>
               {menuItems.map((item) => (
                 <TouchableOpacity 
                   key={item}
-                  style={styles.dropdownItem}
+                  style={[styles.dropdownItem, dropdownItemStyle]}
                   onPress={() => handleFilterSelect(item)}
                 >
-                  <Text>{item}</Text>
+                  <Text style={dropdownItemTextStyle}>{item}</Text>
                 </TouchableOpacity>
               ))}
             </View>
@@ -101,4 +128,4 @@ const styles = StyleSheet.create({
       fontSize: 20,
       color: '#000',
     },
-  });
+});

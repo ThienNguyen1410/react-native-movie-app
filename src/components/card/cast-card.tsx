@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import { Cast } from '../../models/tmdb/movie-credits';
-import { TmdbRepository } from '../../networks/tmdb/tmdb-repository';
+import { TMDB_IMAGE_PATH } from '../../utils/constants';
 
 interface CastCardProps {
   cast: Cast;
@@ -13,7 +13,7 @@ export const CastCard: React.FC<CastCardProps> = ({ cast }) => {
       <Image
         source={{
           uri: cast.profile_path
-            ? `${TmdbRepository.imagePath}${cast.profile_path}`
+            ? `${TMDB_IMAGE_PATH}${cast.profile_path}`
             : 'https://via.placeholder.com/150'
         }}
         style={styles.image}

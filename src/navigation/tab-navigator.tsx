@@ -1,8 +1,8 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import HomeScreen from '../screens/HomeScreen';
 import { BookmarkIcon, HomeIcon } from '../components/icons/icons';
 import { HomeNavigator } from './home-navigator';
+import { WatchListNavigator } from './watch-list-navigator';
 
 
 
@@ -32,8 +32,8 @@ const TabNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="Details"
-        component={HomeScreen}
+        name="WatchList"
+        component={WatchListNavigator}
         options={{
           tabBarIcon: () => <BookmarkIcon/>,
           tabBarShowLabel: false,
