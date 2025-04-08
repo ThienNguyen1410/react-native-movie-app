@@ -9,14 +9,14 @@ import { DropSearch } from '../components/drop-search';
 import { TmdbRepository } from '../networks/tmdb/tmdb-repository';
 import { Movie } from '../models/tmdb/movie';
 import { MovieList } from '../components/MovieList';
-import { NOW_PLAYING, POPULAR, SORT_BY_ALPHABETICAL_ORDER, UPCOMING } from '../utils/constants';
+import { useMovieContext } from '../contexts/MovieContext';
+import { NOW_PLAYING, POPULAR, UPCOMING } from '../utils/constants';
 
 const HomeScreen = () => {
     const tmdbRepository = new TmdbRepository();
     const [movies, setMovies] = useState<Movie[]>([]);
-    const [movieFilter, setMovieFilter] = useState(NOW_PLAYING);
-    const [sortFilter, setSortFilter] = useState(SORT_BY_ALPHABETICAL_ORDER);
     const [searchQuery, setSearchQuery] = useState('');
+    const { movieFilter, sortFilter, setMovieFilter, setSortFilter } = useMovieContext();
 
     useEffect(() => {
         const fetchMovies = async () => {
@@ -32,15 +32,11 @@ const HomeScreen = () => {
             }
         };
         fetchMovies();
-
-        return () => {
-            setSearchQuery('');
-        };
     }, [movieFilter]);
 
     const handleMovieFilterChange = (filter: string) => {
         setMovieFilter(filter);
-        setSearchQuery('');
+        setSearchQuery(''); // Clear search when changing movie filter
     };
 
     const handleSortFilterChange = (filter: string) => {

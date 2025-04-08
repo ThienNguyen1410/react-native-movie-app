@@ -8,13 +8,14 @@ import {
   } from 'react-native';
 
 interface DropDownMenuProps {
+  title: string;
   menuItems: string[];
   onFilterChange?: (selectedItem: string) => void;
 }
 
-export const DropDownMenu = ({ menuItems, onFilterChange }: DropDownMenuProps) => {
+export const DropDownMenu = ({ title, menuItems, onFilterChange }: DropDownMenuProps) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [selectedFilter, setSelectedFilter] = useState(menuItems[0]);
+    const [selectedFilter, setSelectedFilter] = useState(title);
 
     const handleFilterSelect = (item: string) => {
       setSelectedFilter(item);

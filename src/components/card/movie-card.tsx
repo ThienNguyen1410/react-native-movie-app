@@ -1,23 +1,29 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { Movie } from '../../models/tmdb/movie';
+import { HomeStackParamList } from '../../navigation/home-navigator';
+
+type MovieScreenNavigationProp = NativeStackNavigationProp<HomeStackParamList, 'Home'>;
 
 interface MovieCardProps {
-  title: string;
-  date: string;
-  description: string;
+  movie: Movie;
   imageUri: string;
-  onPress?: () => void;
 }
 
 export const MovieCard: React.FC<MovieCardProps> = ({
-  title,
-  date,
-  description,
+  movie,
   imageUri,
-  onPress,
 }) => {
+  const navigation = useNavigation<MovieScreenNavigationProp>();
+
+  const handlePress = () => {
+    navigation.navigate('Detail', { movie_id: movie.id });
+  };
+
   return (
-    <TouchableOpacity onPress={onPress} style={styles.container}>
+    <TouchableOpacity onPress={handlePress} style={styles.container}>
       <View style={styles.card}>
         <Image
           source={{ uri: imageUri }}
@@ -26,11 +32,11 @@ export const MovieCard: React.FC<MovieCardProps> = ({
         />
         <View style={styles.content}>
           <Text style={styles.title} numberOfLines={2}>
-            {title}
+            {movie.title}
           </Text>
-          <Text style={styles.date}>{date}</Text>
+          <Text style={styles.date}>{movie.release_date}</Text>
           <Text style={styles.description} numberOfLines={3}>
-            {description}
+            {movie.overview}
           </Text>
         </View>
       </View>

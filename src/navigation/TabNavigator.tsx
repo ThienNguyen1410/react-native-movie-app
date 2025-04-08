@@ -1,8 +1,11 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screens/HomeScreen';
-import DetailScreen from '../screens/DetailScreen';
 import { BookmarkIcon, HomeIcon } from '../components/icons/icons';
+import { HomeNavigator } from './home-navigator';
+
+
+
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
@@ -18,7 +21,7 @@ const TabNavigator = () => {
       }}>
       <Tab.Screen
         name="Home"
-        component={HomeScreen}
+        component={HomeNavigator}
         options={{
           tabBarIcon: () => <HomeIcon />,
           tabBarShowLabel: false,
@@ -30,7 +33,7 @@ const TabNavigator = () => {
       />
       <Tab.Screen
         name="Details"
-        component={DetailScreen}
+        component={HomeScreen}
         options={{
           tabBarIcon: () => <BookmarkIcon/>,
           tabBarShowLabel: false,

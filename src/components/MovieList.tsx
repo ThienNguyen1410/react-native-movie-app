@@ -58,9 +58,7 @@ export const MovieList: React.FC<MovieListProps> = ({
       renderItem={({ item }: { item: Movie }) => (
         <MovieCard
           key={item.id}
-          title={item.title}
-          date={item.release_date}
-          description={item.overview}
+          movie={item}
           imageUri={`${TMDB_IMAGE_PATH}${item.poster_path}`}
         />
       )}

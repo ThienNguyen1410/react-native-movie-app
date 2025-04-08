@@ -9,7 +9,7 @@ import {
   } from 'react-native';
 
 import { DropDownMenu } from './menu/drop-down-menu';
-import { NOW_PLAYING, UPCOMING, POPULAR, SORT_BY_ALPHABETICAL_ORDER, SORT_BY_RATING, SORT_BY_RELEASE_DATE } from '../utils/constants';
+import { NOW_PLAYING, UPCOMING, POPULAR, SORT_BY_ALPHABETICAL_ORDER, SORT_BY_RATING, SORT_BY_RELEASE_DATE, MOVIE_FILTER, SORT_BY } from '../utils/constants';
 
 interface DropSearchProps {
   onMovieFilterChange?: (filter: string) => void;
@@ -28,8 +28,8 @@ export const DropSearch = ({ onMovieFilterChange, onSortFilterChange, onSearch, 
 
   return (
     <View style={styles.filterSection}>
-      <DropDownMenu menuItems={menuItems} onFilterChange={onMovieFilterChange} />
-      <DropDownMenu menuItems={sortItems} onFilterChange={onSortFilterChange} />
+      <DropDownMenu title={MOVIE_FILTER} menuItems={menuItems} onFilterChange={onMovieFilterChange} />
+      <DropDownMenu title={SORT_BY} menuItems={sortItems} onFilterChange={onSortFilterChange} />
 
         <View style={styles.searchContainer}>
           <TextInput
