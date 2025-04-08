@@ -8,24 +8,36 @@ import {
     TextInput,
   } from 'react-native';
 
-export const DropSearch = () => {
+import { DropDownMenu } from './menu/drop-down-menu';
+import { NOW_PLAYING, UPCOMING, POPULAR, SORT_BY_ALPHABETICAL_ORDER, SORT_BY_RATING, SORT_BY_RELEASE_DATE } from '../utils/constants';
+
+interface DropSearchProps {
+  onMovieFilterChange?: (filter: string) => void;
+  onSortFilterChange?: (filter: string) => void;
+  onSearch?: (query: string) => void;
+  searchQuery?: string;
+}
+
+export const DropSearch = ({ onMovieFilterChange, onSortFilterChange, onSearch, searchQuery }: DropSearchProps) => {
+  const menuItems = [NOW_PLAYING, UPCOMING, POPULAR];
+  const sortItems = [SORT_BY_ALPHABETICAL_ORDER, SORT_BY_RATING, SORT_BY_RELEASE_DATE];
+
+  const handleSearch = (query: string) => {
+    onSearch?.(query);
+  };
+
   return (
     <View style={styles.filterSection}>
-        <TouchableOpacity style={styles.filterButton}>
-          <Text style={styles.filterButtonText}>Now Playing</Text>
-          <Text style={styles.chevron}>›</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.filterButton}>
-          <Text style={styles.filterButtonText}>Sort by</Text>
-          <Text style={styles.chevron}>›</Text>
-        </TouchableOpacity>
+      <DropDownMenu menuItems={menuItems} onFilterChange={onMovieFilterChange} />
+      <DropDownMenu menuItems={sortItems} onFilterChange={onSortFilterChange} />
 
         <View style={styles.searchContainer}>
           <TextInput
             style={styles.searchInput}
             placeholder="Search..."
             placeholderTextColor="#999"
+            value={searchQuery}
+            onChangeText={handleSearch}
           />
           <TouchableOpacity style={styles.searchButton}>
             <Text style={styles.searchButtonText}>Search</Text>
@@ -39,30 +51,6 @@ const styles = StyleSheet.create({
     filterSection: {
       padding: 16,
       gap: 12,
-    },
-    filterButton: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      padding: 16,
-      backgroundColor: '#fff',
-      borderRadius: 8,
-      shadowColor: '#000',
-      shadowOffset: {
-        width: 0,
-        height: 2,
-      },
-      shadowOpacity: 0.1,
-      shadowRadius: 4,
-      elevation: 2,
-    },
-    filterButtonText: {
-      fontSize: 16,
-      color: '#000',
-    },
-    chevron: {
-      fontSize: 20,
-      color: '#000',
     },
     searchContainer: {
       gap: 12,

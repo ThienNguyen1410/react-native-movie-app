@@ -1,61 +1,81 @@
-import { TouchableOpacity, Image, View, Text, StyleSheet, ImageSourcePropType } from "react-native";
+import React from 'react';
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 
-export const MovieCard = ({ title, date, description, image }: { title: string, date: string, description: string, image: ImageSourcePropType }) => (
-    <TouchableOpacity style={styles.movieCard}>
-      <Image source={image} style={styles.movieImage} />
-      <View style={styles.movieInfo}>
-        <Text style={styles.movieTitle}>{title}</Text>
-        <Text style={styles.movieDate}>{date}</Text>
-        <Text numberOfLines={2} style={styles.movieDescription}>
-          {description}
-        </Text>
+interface MovieCardProps {
+  title: string;
+  date: string;
+  description: string;
+  imageUri: string;
+  onPress?: () => void;
+}
+
+export const MovieCard: React.FC<MovieCardProps> = ({
+  title,
+  date,
+  description,
+  imageUri,
+  onPress,
+}) => {
+  return (
+    <TouchableOpacity onPress={onPress} style={styles.container}>
+      <View style={styles.card}>
+        <Image
+          source={{ uri: imageUri }}
+          style={styles.image}
+          resizeMode="cover"
+        />
+        <View style={styles.content}>
+          <Text style={styles.title} numberOfLines={2}>
+            {title}
+          </Text>
+          <Text style={styles.date}>{date}</Text>
+          <Text style={styles.description} numberOfLines={3}>
+            {description}
+          </Text>
+        </View>
       </View>
     </TouchableOpacity>
   );
+};
 
-  const styles = StyleSheet.create({
-
-    movieList: {
-      flex: 1,
-      padding: 16,
+const styles = StyleSheet.create({
+  container: {
+    padding: 10,
+  },
+  card: {
+    flexDirection: 'row',
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
     },
-    movieCard: {
-      flexDirection: 'row',
-      backgroundColor: '#fff',
-      borderRadius: 8,
-      marginBottom: 16,
-      overflow: 'hidden',
-      shadowColor: '#000',
-      shadowOffset: {
-        width: 0,
-        height: 2,
-      },
-      shadowOpacity: 0.1,
-      shadowRadius: 4,
-      elevation: 2,
-    },
-    movieImage: {
-      width: 100,
-      height: 150,
-      resizeMode: 'cover',
-    },
-    movieInfo: {
-      flex: 1,
-      padding: 12,
-    },
-    movieTitle: {
-      fontSize: 18,
-      fontWeight: 'bold',
-      marginBottom: 4,
-    },
-    movieDate: {
-      fontSize: 14,
-      color: '#666',
-      marginBottom: 8,
-    },
-    movieDescription: {
-      fontSize: 14,
-      color: '#666',
-      lineHeight: 20,
-    },
-  });
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    overflow: 'hidden',
+  },
+  image: {
+    width: 100,
+    height: 150,
+  },
+  content: {
+    flex: 1,
+    padding: 10,
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
+  date: {
+    fontSize: 12,
+    color: '#666',
+    marginBottom: 5,
+  },
+  description: {
+    fontSize: 14,
+    color: '#444',
+  },
+});
