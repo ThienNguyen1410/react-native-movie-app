@@ -58,9 +58,11 @@ yarn android
 
 ## Features
 
-![Movie App Screenshot](./home-screen.png)
-![Movie App Screenshot](./detail-screen.png)
-![Movie App Screenshot](./watch-list-screen.png)
+<div style="display: flex; justify-content: space-between;">
+  <img src="./home-screen.png" width="32%" alt="Home Screen" />
+  <img src="./detail-screen.png" width="32%" alt="Detail Screen" />
+  <img src="./watch-list-screen.png" width="32%" alt="Watch List Screen" />
+</div>
 
 
 - Get and search list of movies
